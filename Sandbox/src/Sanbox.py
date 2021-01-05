@@ -1,4 +1,3 @@
-from Engine import *
 from Engine.src.Core.Application.Application import Application
 
 class SandBox(Application):

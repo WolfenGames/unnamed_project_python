@@ -1,6 +1,6 @@
 from Engine.src.Events.ApplicationEvent import WindowResizeEvent
+from Engine.src.Platform.Windows.Windows import Window, WindowProperties
 from Engine.src.gl_imports import *
-
 
 w, h = 500, 500
 
@@ -37,10 +37,18 @@ def Run():
     glutDisplayFunc(showScreen)  # Tell OpenGL to call the showScreen method continuously
     glutIdleFunc(showScreen)     # Draw any graphics or shapes in the showScreen function at all times
     glutMainLoop()
+
 class Application():
 
+    def __init__(self) -> None:
+        properties = WindowProperties()
+        window = Window()
+        self.m_Window = window.Create(properties = properties)
+
     def Run(self):
-        self.e = WindowResizeEvent(1280, 720)
-        print(f"{self.e}")
+
         while True:
-            Run()
+            pass
+
+    def OnEvent(self, event):
+        pass

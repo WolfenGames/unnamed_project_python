@@ -86,7 +86,9 @@ class EventDispatcher():
 
     def Dispatch(self, T, F) -> bool:
         if self.m_Event.GetEventType() == T.GetStaticType():
-            # self.m_Event.GetHandled() |= F((T)(self.m_Event))
+            handled = self.m_Event.GetHandled()
+            handled |= F((T)(self.m_Event))
+            self.m_Event.SetHandled(handled)
             return True
         return False
     def __str__(self, e) -> str:

@@ -78,10 +78,10 @@ class UPEvent:
     def GetEventType(self) -> EventType:
         raise NotImplementedError()
 
-    def GetName() -> str:
+    def GetName(self) -> str:
         raise NotImplementedError()
 
-    def GetCategoryFlags() -> int:
+    def GetCategoryFlags(self) -> int:
         raise NotImplementedError()
 
     def __str__(self) -> str:

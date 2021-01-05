@@ -1,10 +1,15 @@
+from Engine.src.Events.ApplicationEvent import WindowResizeEvent, WindowClosedEvent
+from Engine.src.Events.KeyEvent import KeyPressedEvent, KeyReleasedEvent, KeyRepeatEvent
+from Engine.src.Events.MouseEvent import MouseButtonPressedEvent, MouseButtonReleasedEvent, MouseScrolledEvent, \
+    MouseMovedEvent
 from Engine.src.gl_imports import *
 
-class WindowProperties():
+
+class WindowProperties:
     def __init__(self,
-        title = "UnnamedProject",
-        width = 1280,
-        height = 720):
+                 title="UnnamedProject",
+                 width=1280,
+                 height=720):
         self.m_Title = title
         self.m_Width = width
         self.m_Height = height
@@ -21,8 +26,9 @@ class WindowProperties():
     def __str__(self):
         return f"WindowTitle: {self.GetTitle()}, {self.GetWidth()}, {self.GetHeight()}"
 
-class WindowsData():
-    def __init__(self, title="none", width=0, height=0,vsync=False):
+
+class WindowsData:
+    def __init__(self, title="none", width=0, height=0, vsync=False):
         self.Title = title
         self.Width = width
         self.Height = height
@@ -31,9 +37,9 @@ class WindowsData():
     def GetTitle(self):
         return self.Title
 
-    def SetTitle(self, title) -> str:
+    def SetTitle(self, title):
         self.Title = title
-    
+
     def GetHeight(self):
         return self.Height
 
@@ -43,7 +49,7 @@ class WindowsData():
     def GetWidth(self) -> int:
         return self.Width
 
-    def SetWidth(self, width) -> int:
+    def SetWidth(self, width):
         self.width = width
 
     def GetVsync(self):
@@ -52,8 +58,15 @@ class WindowsData():
     def SetVsync(self, vsync):
         self.Vsync = vsync
 
+    def EventCallBack(self, e):
+        print(e)
+        self.e = e
 
-class Window():
+    def GetEventCallBack(self):
+        print(f"{self.e}")
+        return self.e
+
+class Window:
 
     def OnUpdate(self):
         raise NotImplementedError()
@@ -70,23 +83,18 @@ class Window():
     def SetVsync(self, enabled):
         raise NotImplementedError()
 
-    def Create(self, properties):
+    @staticmethod
+    def Create(properties):
         return WindowsWindow(properties)
 
-    def __str__(self):
-        self
 
 s_GFLWInit = False
 
-class WindowsWindow():
 
-    # def Create(self, properties):
-    #     self.m_Window = self.Create(properties)
-    #     return self.m_Window
+class WindowsWindow:
 
     def __init__(self, properties):
         self.Init(properties)
-
 
     def Init(self, properties):
         global s_GFLWInit
@@ -100,24 +108,28 @@ class WindowsWindow():
         if not s_GFLWInit:
             success = glfw.init()
             print(f"GLU Failed to init") if not success else print(f"GLU Init")
+            glfw.set_error_callback(self.ErrorFunction)
             s_GFLWInit = True
 
         width = self.m_Data.GetWidth()
         height = self.m_Data.GetHeight()
-        
+
         self.m_Window = glfw.create_window(width, height, self.m_Data.GetTitle(), None, None)
         if not self.m_Window:
             glfw.terminate()
         glfw.make_context_current(self.m_Window)
 
         self.SetVsync(True)
+        glfw.set_window_size_callback(self.m_Window, self.WindowResizeFunction)
+        glfw.set_window_close_callback(self.m_Window, self.WindowCloseFunction)
+        glfw.set_key_callback(self.m_Window, self.KeyCallFuction)
+        glfw.set_mouse_button_callback(self.m_Window, self.MouseButtonFunction)
+        glfw.set_scroll_callback(self.m_Window, self.ScrollFunction)
+        glfw.set_cursor_pos_callback(self.m_Window, self.CursorPosCallback)
 
     def OnUpdate(self):
         glfw.swap_buffers(self.m_Window)
         glfw.poll_events()
-
-    # def GetWidth(self):
-    #     pass
 
     def SetVsync(self, enabled):
         if enabled:
@@ -127,8 +139,54 @@ class WindowsWindow():
 
         self.m_Data.SetVsync(enabled)
 
-    # def SetEventCallBack(self):
-    #     pass
+    def SetEventCallback(self, e):
+        self.m_Data.EventCallBack(e)
+        print(f"{self.m_Data.GetEventCallBack()}")
 
     def ShutDown(self):
         glfw.destroy_window(self.m_Window)
+
+    def WindowResizeFunction(self, window, width, height):
+        data = WindowsData(glfw.get_window_user_pointer(window))
+        event = WindowResizeEvent(width, height)
+        data.SetWidth(width)
+        data.SetHeight(height)
+        data.EventCallBack(event)
+
+    def WindowCloseFunction(self, window):
+        data = WindowsData(glfw.get_window_user_pointer(window))
+        event = WindowClosedEvent
+        data.EventCallBack(event)
+
+    def KeyCallFuction(self, window, key, scancode, action, mods):
+        data = WindowsData(glfw.get_window_user_pointer(window))
+        switcher = {
+            glfw.PRESS: KeyPressedEvent(key, 0),
+            glfw.RELEASE: KeyReleasedEvent(key),
+            glfw.REPEAT: KeyRepeatEvent(key, 1)
+        }
+        aa = switcher.get(action, "Fuck all")
+        data.EventCallBack(aa)
+
+    def MouseButtonFunction(self, window, button, action, mods):
+
+        data = WindowsData(glfw.get_window_user_pointer(window))
+        switcher = {
+            glfw.PRESS: MouseButtonPressedEvent(button),
+            glfw.RELEASE: MouseButtonReleasedEvent(button)
+        }
+        aa = switcher.get(action, "Fuck all")
+        data.EventCallBack(aa)
+
+    def ScrollFunction(self, window, xOffset, yOffset):
+        data = WindowsData(glfw.get_window_user_pointer(window))
+        event = MouseScrolledEvent(xOffset, yOffset)
+        data.EventCallBack(event)
+
+    def CursorPosCallback(self, window, xPos, yPos):
+        data = WindowsData(glfw.get_window_user_pointer(window))
+        event = MouseMovedEvent(xPos, yPos)
+        data.EventCallBack(event)
+
+    def ErrorFunction(self, err, desc):
+        print(f"GLFW Error ({err}): {desc}")

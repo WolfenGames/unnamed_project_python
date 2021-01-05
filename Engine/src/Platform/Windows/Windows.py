@@ -43,7 +43,7 @@ class WindowsData():
     def GetWidth(self) -> int:
         return self.Width
 
-    def SetWidth(self, height) -> int:
+    def SetWidth(self, width) -> int:
         self.width = width
 
     def GetVsync(self):
@@ -76,7 +76,7 @@ class Window():
     def __str__(self):
         self
 
-s_GFLWInit = False        
+s_GFLWInit = False
 
 class WindowsWindow():
 
@@ -88,7 +88,7 @@ class WindowsWindow():
         self.Init(properties)
 
 
-    def Init(self, properties):        
+    def Init(self, properties):
         global s_GFLWInit
         self.m_Data = WindowsData(
             properties.GetTitle(),
@@ -97,15 +97,16 @@ class WindowsWindow():
         )
         print(f"{self.m_Data.GetTitle()}")
 
-        if s_GFLWInit == False:
+        if not s_GFLWInit:
             success = glfw.init()
-            print(f"GLU Failed to init") if success == False else print(f"GLU Init")
+            print(f"GLU Failed to init") if not success else print(f"GLU Init")
             s_GFLWInit = True
 
         width = self.m_Data.GetWidth()
         height = self.m_Data.GetHeight()
+        
         self.m_Window = glfw.create_window(width, height, self.m_Data.GetTitle(), None, None)
-        if self.m_Window == None:
+        if not self.m_Window:
             glfw.terminate()
         glfw.make_context_current(self.m_Window)
 

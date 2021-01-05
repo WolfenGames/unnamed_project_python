@@ -1,5 +1,5 @@
-from Engine.src.Events import UPEvent
-from Engine.src.Core.MouseCodes import *
+from Engine.src.Events.Event import UPEvent
+from Engine.src.Core.KeyCodes.MouseCodes import MouseCodes
 
 class MouseMovedEvent(UPEvent):
     def __init__(self, x, y) -> None:

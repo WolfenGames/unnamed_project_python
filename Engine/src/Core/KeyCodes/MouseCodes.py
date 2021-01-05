@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class MouseCodes(Enum):
     Button0 = 0,
     Button1 = 1,

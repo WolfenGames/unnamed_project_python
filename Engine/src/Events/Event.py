@@ -1,6 +1,7 @@
 from enum import Enum
 from Engine.src.Core.base import BIT
 
+
 class EventType(Enum):
     NoneEvent = 0,
     WindowClose = 1,
@@ -18,6 +19,7 @@ class EventType(Enum):
     MouseMoved = 13,
     MouseScrolled = 14
 
+
 class EventCategory(Enum):
     NoneEvent = 0,
     EventCategoryApplication = BIT(0),
@@ -26,6 +28,7 @@ class EventCategory(Enum):
     EventCategoryMouse = BIT(3),
     EventCategoryMouseButton = BIT(4)
 
+
 class EventClassBase(object):
     def GetEventType(self) -> EventType:
         raise NotImplementedError()
@@ -33,9 +36,11 @@ class EventClassBase(object):
     def GetName(self) -> str:
         raise NotImplementedError()
 
+
 class EventCategoryBase(object):
     def GetCategoryFlags(self) -> int:
         raise NotImplementedError()
+
 
 class EVENT_CLASS_TYPE(EventClassBase):
     def __init__(self, type) -> None:
@@ -51,6 +56,7 @@ class EVENT_CLASS_TYPE(EventClassBase):
     def GetName(self) -> str:
         return self.m_type.name
 
+
 class EventClassCategory(EventCategoryBase):
     def __init__(self, category) -> None:
         self.m_category = category
@@ -58,7 +64,8 @@ class EventClassCategory(EventCategoryBase):
     def GetCategoryFlags(self) -> int:
         return self.m_category
 
-class UPEvent():
+
+class UPEvent:
     def __init__(self) -> None:
         self.Handled = False
 
@@ -80,16 +87,15 @@ class UPEvent():
     def __str__(self) -> str:
         return self.GetName()
 
-class EventDispatcher():
+
+class EventDispatcher:
     def __init__(self, event) -> None:
         self.m_Event = event
 
     def Dispatch(self, T, F) -> bool:
         if self.m_Event.GetEventType() == T.GetStaticType():
             handled = self.m_Event.GetHandled()
-            handled |= F((T)(self.m_Event))
+            handled |= F(T(self.m_Event))
             self.m_Event.SetHandled(handled)
             return True
         return False
-    def __str__(self, e) -> str:
-        return f"{e}"

@@ -1,5 +1,6 @@
-from Engine.src.Events import UPEvent
-from Engine.src.Core.KeyCode import *
+from Engine.src.Events.Event import UPEvent
+from Engine.src.Core.KeyCodes import KeyCode
+
 
 class KeyEvent(UPEvent):
     def __init__(self, keyCode) -> None:
@@ -13,6 +14,7 @@ class KeyEvent(UPEvent):
     def GetEventClassCategory(self):
         return self.EventClassCategory
 
+
 class KeyPressedEvent(KeyEvent):
     def __init__(self, keyCode, repeatCount) -> None:
         super().__init__(keyCode)
@@ -24,6 +26,7 @@ class KeyPressedEvent(KeyEvent):
 
     def __str__(self) -> str:
         return f"KeyPressedEvent: {self.GetKeyCode()} ({self.m_repeatCount} repeats)"
+
 
 class KeyReleasedEvent(KeyEvent):
     def __init__(self, keyCode) -> None:

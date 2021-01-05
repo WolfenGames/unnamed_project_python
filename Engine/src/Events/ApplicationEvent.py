@@ -3,6 +3,7 @@ from Engine.src.Events import Event
 
 class WindowResizeEvent(Event):
     def __init__(self, width, height) -> None:
+        super.__init__()
         self.m_width = width
         self.m_height = height
 

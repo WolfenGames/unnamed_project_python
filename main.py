@@ -1,5 +1,5 @@
 from Engine.src.gl_imports import *
-from Sandbox.src.Sanbox import *
+# from Sandbox.src.Sanbox import *
 
 w, h = 500, 500
 
@@ -38,5 +38,5 @@ def Run():
     glutMainLoop()
 
 if __name__ == "__main__":
-    sb = SandBox()
+    # sb = SandBox()
     Run()

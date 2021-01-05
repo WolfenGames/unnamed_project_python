@@ -3,8 +3,8 @@ from Engine.src.gl_imports import *
 class WindowProperties():
     def __init__(self,
         title = "UnnamedProject",
-        width = 720,
-        height = 1280):
+        width = 1280,
+        height = 720):
         self.m_Title = title
         self.m_Width = width
         self.m_Height = height
@@ -12,10 +12,10 @@ class WindowProperties():
     def GetTitle(self) -> str:
         return self.m_Title
 
-    def GetWidth(self) -> str:
+    def GetWidth(self) -> int:
         return self.m_Width
 
-    def GetHeight(self) -> str:
+    def GetHeight(self) -> int:
         return self.m_Height
 
     def __str__(self):
@@ -40,11 +40,11 @@ class WindowsData():
     def SetHeight(self, height):
         self.Height = height
 
-    def GetWidth(self):
+    def GetWidth(self) -> int:
         return self.Width
 
-    def SetWidth(self, height):
-        self.width = height
+    def SetWidth(self, height) -> int:
+        self.width = width
 
     def GetVsync(self):
         return self.Vsync
@@ -93,15 +93,18 @@ class WindowsWindow():
         self.m_Data = WindowsData(
             properties.GetTitle(),
             properties.GetWidth(),
-            properties.GetHeight
+            properties.GetHeight()
         )
+        print(f"{self.m_Data.GetTitle()}")
 
         if s_GFLWInit == False:
             success = glfw.init()
             print(f"GLU Failed to init") if success == False else print(f"GLU Init")
             s_GFLWInit = True
 
-        self.m_Window = glfw.create_window(640, 480, "Da fuk", None, None)
+        width = self.m_Data.GetWidth()
+        height = self.m_Data.GetHeight()
+        self.m_Window = glfw.create_window(width, height, self.m_Data.GetTitle(), None, None)
         if self.m_Window == None:
             glfw.terminate()
         glfw.make_context_current(self.m_Window)

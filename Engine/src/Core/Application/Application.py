@@ -43,12 +43,13 @@ class Application():
     def __init__(self) -> None:
         properties = WindowProperties()
         window = Window()
+        self.m_Running = True
         self.m_Window = window.Create(properties = properties)
 
     def Run(self):
 
         while True:
-            pass
+            self.m_Window.OnUpdate()
 
     def OnEvent(self, event):
         pass

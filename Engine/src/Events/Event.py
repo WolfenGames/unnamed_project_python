@@ -58,7 +58,7 @@ class EventClassCategory(EventCategoryBase):
     def GetCategoryFlags(self) -> int:
         return self.m_category
 
-class Event():
+class UPEvent():
     def __init__(self) -> None:
         self.Handled = False
 

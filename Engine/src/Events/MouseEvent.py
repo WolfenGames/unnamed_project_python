@@ -1,13 +1,13 @@
-from Engine.src.Events import Event
+from Engine.src.Events import UPEvent
 from Engine.src.Core.MouseCodes import *
 
-class MouseMovedEvent(Event):
+class MouseMovedEvent(UPEvent):
     def __init__(self, x, y) -> None:
         super().__init__()
         self.m_MouseX = x
         self.m_MouseY = y
-        self.m_EventClassType = Event.EVENT_CLASS_TYPE( Event.EventType.MouseMoved )
-        self.m_EventClassCategory = Event.EventClassCategory( Event.EventCategory.EventCategoryMouse | Event.EventCategory.EventCategoryInput )
+        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE( UPEvent.EventType.MouseMoved )
+        self.m_EventClassCategory = UPEvent.EventClassCategory( UPEvent.EventCategory.EventCategoryMouse | UPEvent.EventCategory.EventCategoryInput )
 
     def GetX(self) -> float:
         return self.m_MouseX
@@ -24,13 +24,13 @@ class MouseMovedEvent(Event):
     def GetEventClassCategory(self):
         return self.m_EventClassCategory
 
-class MouseScrolledEvent(Event):
+class MouseScrolledEvent(UPEvent):
     def __init__(self, xOffset, yOffset) -> None:
         super().__init__()
         self.m_MouseXOffset = xOffset
         self.m_MouseYOffset = yOffset
-        self.m_EventClassType = Event.EVENT_CLASS_TYPE( Event.EventType.MouseScrolled )
-        self.m_EventClassCategory = Event.EventClassCategory( Event.EventCategory.EventCategoryMouse | Event.EventCategory.EventCategoryInput )
+        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE( UPEvent.EventType.MouseScrolled )
+        self.m_EventClassCategory = UPEvent.EventClassCategory( UPEvent.EventCategory.EventCategoryMouse | UPEvent.EventCategory.EventCategoryInput )
 
     def GetXOffset(self) -> float:
         return self.m_MouseXOffset
@@ -47,12 +47,12 @@ class MouseScrolledEvent(Event):
     def GetEventClassCategory(self):
         return self.m_EventClassCategory
 
-class MouseButtonEvent(Event):
+class MouseButtonEvent(UPEvent):
     def __init__(self, button) -> None:
         super().__init__()
         self.m_Button = button
-        self.m_EventClassCategory = Event.EventClassCategory(
-            Event.EventCategory.EventCategoryMouse | Event.EventCategory.EventCategoryInput | Event.EventCategory.EventCategoryMouseButton
+        self.m_EventClassCategory = UPEvent.EventClassCategory(
+            UPEvent.EventCategory.EventCategoryMouse | UPEvent.EventCategory.EventCategoryInput | UPEvent.EventCategory.EventCategoryMouseButton
         )
 
     def GetButton(self) -> MouseCodes:
@@ -64,7 +64,7 @@ class MouseButtonEvent(Event):
 class MouseButtonPressedEvent(MouseButtonEvent):
     def __init__(self, button) -> None:
         super().__init__(button)
-        self.m_EventClassType = Event.EVENT_CLASS_TYPE( Event.EventType.MouseButtonPressed )
+        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE( UPEvent.EventType.MouseButtonPressed )
 
     def __str__(self) -> str:
         return f"MousePressedEvent: {self.m_Button}"
@@ -75,7 +75,7 @@ class MouseButtonPressedEvent(MouseButtonEvent):
 class MouseButtonReleasedEvent(MouseButtonEvent):
     def __init__(self, button) -> None:
         super().__init__(button)
-        self.m_EventClassType = Event.EVENT_CLASS_TYPE( Event.EventType.MouseButtonReleased )
+        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE( UPEvent.EventType.MouseButtonReleased )
 
     def __str__(self) -> str:
         return f"MouseReleasedEvent: {self.m_Button}"

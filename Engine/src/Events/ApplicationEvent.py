@@ -1,9 +1,8 @@
 from Engine.src.gl_imports import *
-from Engine.src.Events import Event
+from Engine.src.Events.Event import UPEvent
 
-class WindowResizeEvent(Event):
+class WindowResizeEvent(UPEvent):
     def __init__(self, width, height) -> None:
-        super.__init__()
         self.m_width = width
         self.m_height = height
 
@@ -16,11 +15,11 @@ class WindowResizeEvent(Event):
     def __str__(self) -> str:
         return f"WindowResizeEvent: {self.m_width}, {self.m_height}"
 
-class WindowClosedEvent(Event):
+class WindowClosedEvent(UPEvent):
     def __init__(self) -> None:
         super().__init__()
-        self.m_EventClassType = Event.EVENT_CLASS_TYPE(Event.EventType.WindowClose)
-        self.m_EventClassCategory = Event.EventClassCategory(Event.EventCategory.EventCategoryApplication)
+        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE(UPEvent.EventType.WindowClose)
+        self.m_EventClassCategory = UPEvent.EventClassCategory(UPEvent.EventCategory.EventCategoryApplication)
 
     def GetEventClassType(self):
         return self.m_EventClassType
@@ -28,11 +27,11 @@ class WindowClosedEvent(Event):
     def GetEventClassCategory(self):
         return self.m_EventClassCategory
 
-class AppTickEvent(Event):
+class AppTickEvent(UPEvent):
     def __init__(self) -> None:
         super().__init__()
-        self.m_EventClassType = Event.EVENT_CLASS_TYPE(Event.EventType.AppUpdate)
-        self.m_EventClassCategory = Event.EventClassCategory(Event.EventCategory.EventCategoryApplication)
+        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE(UPEvent.EventType.AppUpdate)
+        self.m_EventClassCategory = UPEvent.EventClassCategory(UPEvent.EventCategory.EventCategoryApplication)
 
     def GetEventClassType(self):
         return self.m_EventClassType
@@ -40,11 +39,11 @@ class AppTickEvent(Event):
     def GetEventClassCategory(self):
         return self.m_EventClassCategory
 
-class AppRenderEvent(Event):
+class AppRenderEvent(UPEvent):
     def __init__(self) -> None:
         super().__init__()
-        self.m_EventClassType = Event.EVENT_CLASS_TYPE(Event.EventType.AppRender)
-        self.m_EventClassCategory = Event.EventClassCategory(Event.EventCategory.EventCategoryApplication)
+        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE(UPEvent.EventType.AppRender)
+        self.m_EventClassCategory = UPEvent.EventClassCategory(UPEvent.EventCategory.EventCategoryApplication)
 
     def GetEventClassType(self):
         return self.m_EventClassType

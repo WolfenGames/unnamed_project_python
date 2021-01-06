@@ -154,6 +154,7 @@ class WindowsWindow:
     def WindowCloseFunction(self, window):
         self.ShutDown()
 
+    # TODO: Turn types into a lambda to handle events
     def KeyCallFuction(self, window, key, scancode, action, mods):
         switcher = {
             PRESS: KeyPressedEvent(key, 0),

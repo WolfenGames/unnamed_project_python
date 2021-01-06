@@ -1,16 +1,20 @@
 from Engine.src.Events.ApplicationEvent import WindowClosedEvent
 from Engine.src.Events.Event import EventDispatcher
 from Engine.src.Platform.Windows.Windows import Window, WindowProperties
+from Engine.src.Singletons.Singletons import Singleton
 from Engine.src.gl_imports import *
 
 
-class Application:
+class Application(metaclass=Singleton):
 
     def __init__(self) -> None:
         properties = WindowProperties()
         window = Window()
         self.m_Running = True
         self.m_Window = window.Create(properties=properties)
+
+    def Get(self):
+        return self
 
     def Run(self):
         r = 0
@@ -59,3 +63,4 @@ class Application:
     def OnEvent(self, event):
         dispatch = EventDispatcher(event)
         dispatch.Dispatch(WindowClosedEvent, self.OnWindowClose)
+        # pass

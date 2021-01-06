@@ -1,5 +1,6 @@
 from enum import Enum
 from Engine.src.Core.base import BIT
+from Engine.src.Singletons.Singletons import Singleton
 
 
 class EventType(Enum):
@@ -46,12 +47,11 @@ class EVENT_CLASS_TYPE(EventClassBase):
     def __init__(self, type) -> None:
         self.m_type = type
 
-    @staticmethod
     def GetStaticType(self) -> EventType:
         return self.m_type
 
     def GetEventType(self) -> EventType:
-        self.GetStaticType()
+        return self.GetStaticType()
 
     def GetName(self) -> str:
         return self.m_type.name
@@ -88,7 +88,8 @@ class UPEvent:
         return self.GetName()
 
 
-class EventDispatcher:
+class EventDispatcher(metaclass=Singleton):
+
     def __init__(self, event) -> None:
         self.m_Event = event
 

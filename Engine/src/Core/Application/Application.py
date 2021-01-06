@@ -11,7 +11,6 @@ class Application:
         window = Window()
         self.m_Running = True
         self.m_Window = window.Create(properties=properties)
-        self.m_Window.SetEventCallback(self.OnEvent)
 
     def Run(self):
         r = 0
@@ -20,9 +19,9 @@ class Application:
         redFlipped = False
         greenFlipped = False
         blueFlipped = False
-        while not glfw.window_should_close(self.m_Window.m_Window):
+        while not window_should_close(self.m_Window.m_Window):
             if redFlipped:
-                r += 0.00001
+                r += 0.100001
             else:
                 r -= 0.00007
 
@@ -36,18 +35,19 @@ class Application:
             else:
                 b -= 0.003
 
-            if r >= 1:
+            if r >= 0.9:
                 redFlipped = False
-            if g >= 1:
+            if g >= 0.9:
                 greenFlipped = False
-            if b >= 1:
+            if b >= 0.9:
                 blueFlipped = False
-            if r <= 0:
+            if r <= 0.1:
                 redFlipped = True
-            if g <= 0:
+            if g <= 0.1:
                 greenFlipped = True
-            if b <= 0:
+            if b <= 0.1:
                 blueFlipped = True
+
             glClearColor(r, g, b, 1)
             glClear(GL_COLOR_BUFFER_BIT)
             self.m_Window.OnUpdate()
@@ -57,6 +57,5 @@ class Application:
         return True
 
     def OnEvent(self, event):
-        print(event)
         dispatch = EventDispatcher(event)
         dispatch.Dispatch(WindowClosedEvent, self.OnWindowClose)

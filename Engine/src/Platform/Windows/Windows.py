@@ -59,11 +59,9 @@ class WindowsData:
         self.Vsync = vsync
 
     def EventCallBack(self, e):
-        print(e)
         self.e = e
 
     def GetEventCallBack(self):
-        print(f"{self.e}")
         return self.e
 
     def __str__(self):
@@ -100,6 +98,7 @@ class WindowsWindow:
         self.Init(properties)
 
     def Init(self, properties):
+        print(get_version_string())
         global s_GFLWInit
         self.m_Data = WindowsData(
             properties.GetTitle(),
@@ -109,85 +108,72 @@ class WindowsWindow:
         print(f"{self.m_Data.GetTitle()}")
 
         if not s_GFLWInit:
-            success = glfw.init()
+            success = init()
             print(f"GLU Failed to init") if not success else print(f"GLU Init")
-            glfw.set_error_callback(self.ErrorFunction)
+            set_error_callback(self.ErrorFunction)
             s_GFLWInit = True
 
         width = self.m_Data.GetWidth()
         height = self.m_Data.GetHeight()
 
-        self.m_Window = glfw.create_window(width, height, self.m_Data.GetTitle(), None, None)
+        self.m_Window = create_window(width, height, self.m_Data.GetTitle(), None, None)
         if not self.m_Window:
-            glfw.terminate()
-        glfw.make_context_current(self.m_Window)
+            terminate()
+            exit(1)
+        make_context_current(self.m_Window)
 
         self.SetVsync(True)
-        glfw.set_window_size_callback(self.m_Window, self.WindowResizeFunction)
-        glfw.set_window_close_callback(self.m_Window, self.WindowCloseFunction)
-        glfw.set_key_callback(self.m_Window, self.KeyCallFuction)
-        glfw.set_mouse_button_callback(self.m_Window, self.MouseButtonFunction)
-        glfw.set_scroll_callback(self.m_Window, self.ScrollFunction)
-        glfw.set_cursor_pos_callback(self.m_Window, self.CursorPosCallback)
+        set_window_size_callback(self.m_Window, self.WindowResizeFunction)
+        set_window_close_callback(self.m_Window, self.WindowCloseFunction)
+        set_key_callback(self.m_Window, self.KeyCallFuction)
+        set_mouse_button_callback(self.m_Window, self.MouseButtonFunction)
+        set_scroll_callback(self.m_Window, self.ScrollFunction)
+        set_cursor_pos_callback(self.m_Window, self.CursorPosCallback)
 
     def OnUpdate(self):
-        glfw.swap_buffers(self.m_Window)
-        glfw.poll_events()
+        swap_buffers(self.m_Window)
+        poll_events()
 
     def SetVsync(self, enabled):
         if enabled:
-            glfw.swap_interval(1)
+            swap_interval(1)
         else:
-            glfw.swap_interval(0)
+            swap_interval(0)
 
         self.m_Data.SetVsync(enabled)
 
     def SetEventCallback(self, e):
         self.m_Data.EventCallBack(e)
-        print(f"{self.m_Data.GetEventCallBack()}")
 
     def ShutDown(self):
-        glfw.destroy_window(self.m_Window)
+        destroy_window(self.m_Window)
 
     def WindowResizeFunction(self, window, width, height):
-        data = glfw.get_window_user_pointer(window)
-        event = WindowResizeEvent(width, height)
-        # data.SetWidth(width)
-        # data.SetHeight(height)
-        # data.EventCallBack(event)
+        WindowResizeEvent(width, height)
 
     def WindowCloseFunction(self, window):
-        glfw.set_window_should_close(window, glfw.TRUE)
+        self.ShutDown()
 
     def KeyCallFuction(self, window, key, scancode, action, mods):
-        data = WindowsData(glfw.get_window_user_pointer(window))
         switcher = {
-            glfw.PRESS: KeyPressedEvent(key, 0),
-            glfw.RELEASE: KeyReleasedEvent(key),
-            glfw.REPEAT: KeyRepeatEvent(key, 1)
+            PRESS: KeyPressedEvent(key, 0),
+            RELEASE: KeyReleasedEvent(key),
+            REPEAT: KeyRepeatEvent(key, 1)
         }
         aa = switcher.get(action, "Fuck all")
-        data.EventCallBack(aa)
 
     def MouseButtonFunction(self, window, button, action, mods):
-
-        data = WindowsData(glfw.get_window_user_pointer(window))
         switcher = {
-            glfw.PRESS: MouseButtonPressedEvent(button),
-            glfw.RELEASE: MouseButtonReleasedEvent(button)
+            PRESS: MouseButtonPressedEvent(button),
+            RELEASE: MouseButtonReleasedEvent(button)
         }
         aa = switcher.get(action, "Fuck all")
-        data.EventCallBack(aa)
 
     def ScrollFunction(self, window, xOffset, yOffset):
-        data = WindowsData(glfw.get_window_user_pointer(window))
-        event = MouseScrolledEvent(xOffset, yOffset)
-        data.EventCallBack(event)
+        MouseScrolledEvent(xOffset, yOffset)
 
     def CursorPosCallback(self, window, xPos, yPos):
-        data = WindowsData(glfw.get_window_user_pointer(window))
-        event = MouseMovedEvent(xPos, yPos)
-        data.EventCallBack(event)
+        MouseMovedEvent(xPos, yPos)
 
     def ErrorFunction(self, err, desc):
         print(f"GLFW Error ({err}): {desc}")

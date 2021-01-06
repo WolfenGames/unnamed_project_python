@@ -66,6 +66,9 @@ class WindowsData:
         print(f"{self.e}")
         return self.e
 
+    def __str__(self):
+        return f"I am a window Titled: {self.Title} - {self.GetWidth()} x {self.GetHeight()} ({self.GetVsync()})"
+
 class Window:
 
     def OnUpdate(self):
@@ -147,16 +150,14 @@ class WindowsWindow:
         glfw.destroy_window(self.m_Window)
 
     def WindowResizeFunction(self, window, width, height):
-        data = WindowsData(glfw.get_window_user_pointer(window))
+        data = glfw.get_window_user_pointer(window)
         event = WindowResizeEvent(width, height)
-        data.SetWidth(width)
-        data.SetHeight(height)
-        data.EventCallBack(event)
+        # data.SetWidth(width)
+        # data.SetHeight(height)
+        # data.EventCallBack(event)
 
     def WindowCloseFunction(self, window):
-        data = WindowsData(glfw.get_window_user_pointer(window))
-        event = WindowClosedEvent
-        data.EventCallBack(event)
+        glfw.set_window_should_close(window, glfw.TRUE)
 
     def KeyCallFuction(self, window, key, scancode, action, mods):
         data = WindowsData(glfw.get_window_user_pointer(window))

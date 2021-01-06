@@ -20,7 +20,7 @@ class Application:
         redFlipped = False
         greenFlipped = False
         blueFlipped = False
-        while True:
+        while not glfw.window_should_close(self.m_Window.m_Window):
             if redFlipped:
                 r += 0.00001
             else:

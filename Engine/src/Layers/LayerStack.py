@@ -19,6 +19,18 @@ class LayerStack(Layer):
     def RemoveOverlay(self, layer):
         self.RemoveLayer(layer)
 
+    def MoveLayerUp(self, layer):
+        t_position = self.layers.index(layer)
+        if t_position > 0:
+            t_layer = self.layers.pop(layer)
+            self.layers.insert(t_position-1, layer)
+
+    def MoveLayerDown(self, layer):
+        t_position = self.layers.index(layer)
+        if t_position < (len(self.layers)-1):
+            t_layer = self.layers.pop(layer)
+            self.layers.insert(t_position+1, layer)
+
     def Destruct(self):
         for layer in self.layers:
             self.layers.remove(layer)

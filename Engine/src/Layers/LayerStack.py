@@ -13,27 +13,27 @@ class LayerStack(Layer):
     def AddOverlay(self, name = "default layer", status = True):
         self.layers.insert(0, Layer(len(self.layers), name, status))
 
-    def RemoveLayer(self, layer):
-        self.layers.remove(layer)
+    def RemoveLayer(self, m_layer):
+        self.layers.remove(m_layer)
 
-    def RemoveOverlay(self, layer):
-        self.RemoveLayer(layer)
+    def RemoveOverlay(self, m_layer):
+        self.RemoveLayer(m_layer)
 
-    def MoveLayerUp(self, layer):
-        t_position = self.layers.index(layer)
+    def MoveLayerUp(self, m_layer):
+        t_position = self.layers.index(m_layer)
         if t_position > 0:
-            t_layer = self.layers.pop(layer)
-            self.layers.insert(t_position-1, layer)
+            t_layer = self.layers.pop(m_layer)
+            self.layers.insert(t_position-1, m_layer)
 
-    def MoveLayerDown(self, layer):
-        t_position = self.layers.index(layer)
+    def MoveLayerDown(self, m_layer):
+        t_position = self.layers.index(m_layer)
         if t_position < (len(self.layers)-1):
-            t_layer = self.layers.pop(layer)
-            self.layers.insert(t_position+1, layer)
+            t_layer = self.layers.pop(m_layer)
+            self.layers.insert(t_position+1, m_layer)
 
     def Destruct(self):
-        for layer in self.layers:
-            self.layers.remove(layer)
+        for m_layer in self.layers:
+            del m_layer
 
     def Debug_info(self):
         for t_layer in self.layers:

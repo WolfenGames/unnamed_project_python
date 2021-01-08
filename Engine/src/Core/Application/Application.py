@@ -4,6 +4,7 @@ from Engine.src.Platform.Windows.Windows import Window, WindowProperties
 from Engine.src.Singletons.Singletons import Singleton
 from Engine.src.gl_imports import *
 
+from Engine.src.Layers.LayerStack import LayerStack
 
 class Application(metaclass=Singleton):
 
@@ -12,6 +13,17 @@ class Application(metaclass=Singleton):
         window = Window()
         self.m_Running = True
         self.m_Window = window.Create(properties=properties)
+
+
+        # Basic Layer System, still to be changed and finalized.
+        # This is in no way, shape or form a working LayerStack
+        self.layerstack = LayerStack()
+        self.layerstack.AddLayer(name="Window - Layer")
+        self.layerstack.AddOverlay(name="Test Overlay", status=False)
+        self.layerstack.AddLayer(name="User Interface", status=False)
+
+        print(f"\nCurrent number of Layers - {len(self.layerstack.layers)}")
+        self.layerstack.Debug_info()
 
     def Get(self):
         return self

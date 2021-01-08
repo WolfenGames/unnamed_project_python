@@ -1,5 +1,5 @@
 from Engine.src.gl_imports import *
-from Engine.src.Events.Event import UPEvent
+from Engine.src.Events.Event import UPEvent, EventCategory, EventClassCategory, EVENT_CLASS_TYPE, EventType
 
 
 class WindowResizeEvent(UPEvent):
@@ -21,8 +21,8 @@ class WindowResizeEvent(UPEvent):
 class WindowClosedEvent(UPEvent):
     def __init__(self) -> None:
         super().__init__()
-        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE(UPEvent.EventType.WindowClose)
-        self.m_EventClassCategory = UPEvent.EventClassCategory(UPEvent.EventCategory.EventCategoryApplication)
+        self.m_EventClassType = EVENT_CLASS_TYPE(EventType.WindowClose)
+        self.m_EventClassCategory = EventClassCategory(EventCategory.EventCategoryApplication)
 
     def GetEventClassType(self):
         return self.m_EventClassType
@@ -34,8 +34,8 @@ class WindowClosedEvent(UPEvent):
 class AppTickEvent(UPEvent):
     def __init__(self) -> None:
         super().__init__()
-        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE(UPEvent.EventType.AppUpdate)
-        self.m_EventClassCategory = UPEvent.EventClassCategory(UPEvent.EventCategory.EventCategoryApplication)
+        self.m_EventClassType = EVENT_CLASS_TYPE(EventType.AppUpdate)
+        self.m_EventClassCategory = EventClassCategory(EventCategory.EventCategoryApplication)
 
     def GetEventClassType(self):
         return self.m_EventClassType
@@ -47,8 +47,8 @@ class AppTickEvent(UPEvent):
 class AppRenderEvent(UPEvent):
     def __init__(self) -> None:
         super().__init__()
-        self.m_EventClassType = UPEvent.EVENT_CLASS_TYPE(UPEvent.EventType.AppRender)
-        self.m_EventClassCategory = UPEvent.EventClassCategory(UPEvent.EventCategory.EventCategoryApplication)
+        self.m_EventClassType = EVENT_CLASS_TYPE(EventType.AppRender)
+        self.m_EventClassCategory = EventClassCategory(EventCategory.EventCategoryApplication)
 
     def GetEventClassType(self):
         return self.m_EventClassType

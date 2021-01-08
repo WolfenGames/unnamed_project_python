@@ -25,7 +25,7 @@ class Application(metaclass=Singleton):
         blueFlipped = False
         while not window_should_close(self.m_Window.m_Window):
             if redFlipped:
-                r += 0.100001
+                r += 0.1
             else:
                 r -= 0.00007
 

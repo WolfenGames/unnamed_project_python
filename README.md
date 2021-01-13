@@ -20,9 +20,12 @@ Windows 64 Bit
 `git clone https://github.com/wolfengames/unnamed_project_python`
 # Build
 
-`sudo apt install python-opengl mesa-utils freeglut3-dev`
-
-`pip3 install -r requirements.txt`
+```
+sudo apt install python-opengl mesa-utils freeglut3-dev
+python3 -m venv venv
+source ./venv/bin/activate.{Which ever shell or system you are using}
+pip3 install -r requirements.txt
+```
 
 # Run
 
@@ -31,5 +34,6 @@ Windows 64 Bit
 PRIMITIVE AF
 
 # STACK
-* OpenGL
+* PyOpenGL
 * Python3
+* IMGUI
